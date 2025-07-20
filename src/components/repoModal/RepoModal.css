@@ -1,0 +1,88 @@
+.repo-modal__overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(55, 48, 163, 0.18);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+}
+
+.repo-modal {
+  position: relative;
+  max-width: 540px;
+  width: 96%;
+  margin: 0 auto;
+  border-radius: 18px;
+  background: linear-gradient(120deg, #e0e7ff 0%, #f8fafc 100%);
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.14);
+  outline: none;
+  padding: 0;
+  z-index: 10000;
+  top: 0;
+  border: 2.5px solid #6366f1; /* рамка вокруг модального окна */
+}
+
+.repo-modal__content {
+  padding: 32px 28px 24px 28px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 4px 24px rgba(99, 102, 241, 0.1);
+  position: relative;
+}
+
+.repo-modal__close {
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 18px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.repo-modal__close:hover {
+  background: #3730a3;
+}
+
+.repo-modal__title {
+  margin-top: 0;
+  color: #3730a3;
+  font-size: 1.45rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.repo-modal__desc {
+  color: #374151;
+  font-size: 1.08rem;
+  margin-bottom: 18px;
+  opacity: 0.92;
+}
+
+.repo-modal__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.repo-modal__list li {
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 8px;
+  padding-left: 0;
+}
+
+.repo-modal__loading {
+  color: #6366f1;
+  font-size: 1.08rem;
+  text-align: center;
+  margin-top: 18px;
+}
