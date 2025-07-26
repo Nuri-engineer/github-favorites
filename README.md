@@ -20,5 +20,3 @@
 - React Icons
 - LocalStorage API
 - Fetch API
-- React.memo и useCallback
-- CSS-модули
