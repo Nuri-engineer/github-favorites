@@ -29,7 +29,7 @@ const RepoList = React.memo(function RepoList({
     <div className="repo-list">
       <input
         type="text"
-        placeholder="Фильтр по названию"
+        placeholder="Фильтр по названию, описанию или автору"
         value={filterText}
         onChange={(e) => setFilterText(e.target.value)}
         className="repo-list__filter"
