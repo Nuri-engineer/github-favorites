@@ -1,6 +1,6 @@
 # GitHub Repositories Explorer
 
-[![Live Demo](https://img.shields.io/badge/demo-vercel-blue)](https://github-repo-explorer.vercel.app)(https://github-favorite.netlify.app)
+[![Live Demo](https://img.shields.io/badge/demo-vercel-blue)](https://github-favorite.netlify.app)
 
 Приложение для поиска и управления репозиториями GitHub с возможностью фильтрации и добавления в избранное.
 
