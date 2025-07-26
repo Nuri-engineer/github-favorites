@@ -15,6 +15,12 @@ const FavoriteList = React.memo(function FavoriteList({
           {...provided.droppableProps}
           className="favorite-list"
         >
+          {repos.length === 0 && (
+            <div className="repo-list__status">
+              Перетащите сюда нужный репозиторий
+            </div>
+          )}
+
           {repos.map((repo, index) => (
             <Draggable
               key={repo.id}

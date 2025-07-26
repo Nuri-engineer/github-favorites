@@ -1,11 +1,9 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { Droppable, Draggable } from "@hello-pangea/dnd";
 import "./RepoList.css";
 
 const RepoList = React.memo(function RepoList({
   repos,
-  filterText,
-  setFilterText,
   onRepoClick,
   droppableId,
   isLoading,
@@ -13,24 +11,30 @@ const RepoList = React.memo(function RepoList({
   emptyMessage = "Ничего не найдено",
   isInitialState,
 }) {
-  const filteredRepos = filterText
-    ? repos.filter((r) =>
-        r.name.toLowerCase().includes(filterText.toLowerCase())
-      )
-    : repos;
+  const [filterText, setFilterText] = useState("");
+
+  const filteredRepos = useMemo(() => {
+    if (!filterText.trim()) return repos;
+    const lowerFilter = filterText.toLowerCase();
+    return repos.filter(
+      (repo) =>
+        repo.name.toLowerCase().includes(lowerFilter) ||
+        (repo.description &&
+          repo.description.toLowerCase().includes(lowerFilter)) ||
+        (repo.owner && repo.owner.login.toLowerCase().includes(lowerFilter))
+    );
+  }, [repos, filterText]);
 
   return (
     <div className="repo-list">
-      {setFilterText && (
-        <input
-          type="text"
-          placeholder="Фильтр по названию"
-          value={filterText}
-          onChange={(e) => setFilterText(e.target.value)}
-          className="repo-list__filter"
-          aria-label="Фильтр репозиториев"
-        />
-      )}
+      <input
+        type="text"
+        placeholder="Фильтр по названию"
+        value={filterText}
+        onChange={(e) => setFilterText(e.target.value)}
+        className="repo-list__filter"
+        aria-label="Фильтр репозиториев"
+      />
 
       <Droppable droppableId={droppableId}>
         {(provided) => (
@@ -53,6 +57,7 @@ const RepoList = React.memo(function RepoList({
 
             {!isLoading &&
               !error &&
+              filteredRepos.length === 0 &&
               isInitialState && (
                 <div className="repo-list__status">
                   Введите запрос для поиска репозиториев

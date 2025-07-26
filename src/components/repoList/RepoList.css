@@ -1,21 +1,25 @@
 .repo-list {
   flex: 1;
   background: linear-gradient(120deg, #e0e7ff 0%, #f8fafc 100%);
-  border-radius: 18px;
+  border-radius: 10px;
   box-shadow: 0 6px 24px rgba(99, 102, 241, 0.1);
-  padding: 28px 22px;
+  padding: 5px 5px;
   overflow-y: auto;
   height: 100%;
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 10px;
   border: 1.5px solid #c7d2fe;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .repo-list__filter {
-  margin-bottom: 16px;
-  width: 94%;
+  display: flex;
+  align-items: center;
+  margin: 15px auto;
+  width: 80%;
   padding: 10px 14px;
   border-radius: 8px;
   border: 1px solid #d1d5db;
@@ -37,10 +41,12 @@
 }
 
 .repo-list__item {
+  width: 100%;
+  box-sizing: border-box;
   user-select: none;
-  padding: 18px 16px;
+  padding: 5px 5px;
   background: linear-gradient(90deg, #fff 0%, #eef2ff 100%);
-  border-radius: 12px;
+  border-radius: 10px;
   box-shadow: 0 4px 16px rgba(99, 102, 241, 0.12);
   cursor: pointer;
   border: 1px solid #e0e7ff;
@@ -56,41 +62,12 @@
   position: relative;
 }
 
-.repo-list__item:hover {
-  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.18);
-  border: 2px solid #6366f1;
-  background: linear-gradient(90deg, #e0e7ff 0%, #fff 100%);
-  transform: translateY(-2px) scale(1.02);
-}
-
 .repo-list__item strong {
   color: #3730a3;
   font-size: 1.18rem;
   font-weight: 700;
   letter-spacing: 0.7px;
   margin-bottom: 2px;
-}
-
-.repo-list__item span {
-  margin-left: 10px;
-  color: #6366f1;
-  font-weight: 600;
-  font-size: 1.05rem;
-  background: #e0e7ff;
-  border-radius: 6px;
-  padding: 2px 8px;
-  display: inline-block;
-}
-
-.repo-list__item-desc {
-  font-size: 14px;
-  color: #374151;
-  margin-top: 3px;
-  font-style: italic;
-  opacity: 0.92;
-  word-break: break-word;
-  line-height: 1.5;
-  padding-left: 2px;
 }
 
 .repo-list__status {

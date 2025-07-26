@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import "./HelpModal.css";
 
 export const HelpModal = ({ isOpen, onClose }) => {
+  const closeButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (isOpen && closeButtonRef.current) {
+      closeButtonRef.current.focus();
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div
+      className="modal-overlay"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="help-modal-title"
+    >
       <div className="help-modal" onClick={(e) => e.stopPropagation()}>
-        <h2>Справка по приложению</h2>
+        <h2 id="help-modal-title">Справка по приложению</h2>
         <div className="help-content">
           <h3>Как использовать:</h3>
           <ul>
@@ -21,7 +35,7 @@ export const HelpModal = ({ isOpen, onClose }) => {
             <li>Esc - закрыть модальное окно</li>
           </ul>
         </div>
-        <button className="close-button" onClick={onClose}>
+        <button className="close-button" onClick={onClose} ref={closeButtonRef}>
           Закрыть
         </button>
       </div>

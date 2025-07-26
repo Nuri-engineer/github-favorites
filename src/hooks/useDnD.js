@@ -1,52 +1,94 @@
-import { useCallback } from 'react';
+import { useCallback } from "react";
 
-export const useDnD = ({ favorites, setFavorites, searchResults, setSearchResults }) => {
-  const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-    return result;
-  };
+const removeAtIndex = (array, index) => [
+  ...array.slice(0, index),
+  ...array.slice(index + 1),
+];
 
-  const move = (source, destination, sourceIdx, destIdx) => {
-    const sourceClone = Array.from(source);
-    const destClone = Array.from(destination);
-    const [moved] = sourceClone.splice(sourceIdx, 1);
-    destClone.splice(destIdx, 0, moved);
-    return [sourceClone, destClone];
-  };
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+  return result;
+};
 
-  const onDragEnd = useCallback(({ source, destination }) => {
-    if (!destination) return;
+export const useDnD = ({
+  favorites,
+  setFavorites,
+  searchResults,
+  setSearchResults,
+  filteredSearchResults,
+}) => {
+  const onDragEnd = useCallback(
+    ({ source, destination }) => {
+      if (!source || !destination) return;
 
-    if (source.droppableId === destination.droppableId) {
-      if (source.droppableId === "favorites") {
-        setFavorites(prev => reorder(prev, source.index, destination.index));
-      } else {
-        setSearchResults(prev => reorder(prev, source.index, destination.index));
+      const { droppableId: sourceId, index: sourceIndex } = source;
+      const { droppableId: destId, index: destIndex } = destination;
+
+      if (sourceId === destId) {
+        if (sourceId === "favorites") {
+          setFavorites((prev) => reorder(prev, sourceIndex, destIndex));
+        } else if (sourceId === "searchResults") {
+          setSearchResults((prev) => reorder(prev, sourceIndex, destIndex));
+        }
+        return;
       }
-    } else {
-      if (source.droppableId === "searchResults") {
-        const [newSearch, newFavs] = move(
-          searchResults,
-          favorites,
-          source.index,
-          destination.index
+
+      if (sourceId === "searchResults" && destId === "favorites") {
+        if (sourceIndex < 0 || sourceIndex >= filteredSearchResults.length)
+          return;
+        const moved = filteredSearchResults[sourceIndex];
+        if (!moved) return;
+
+        const newSearchResults = searchResults.filter(
+          (item) => item.id !== moved.id
         );
-        setSearchResults(newSearch);
-        setFavorites(newFavs);
-      } else {
-        const [newFavs, newSearch] = move(
-          favorites,
-          searchResults,
-          source.index,
-          destination.index
-        );
-        setFavorites(newFavs);
-        setSearchResults(newSearch);
+        const newFavorites = [
+          ...favorites.slice(0, destIndex),
+          moved,
+          ...favorites.slice(destIndex),
+        ];
+
+        setSearchResults(newSearchResults);
+        setFavorites(newFavorites);
+        return;
       }
-    }
-  }, [favorites, searchResults, setFavorites, setSearchResults]);
+
+      if (sourceId === "favorites" && destId === "searchResults") {
+        if (sourceIndex < 0 || sourceIndex >= favorites.length) return;
+
+        const moved = favorites[sourceIndex];
+        if (!moved) return;
+
+        const existsInSearch = searchResults.some(
+          (item) => item.id === moved.id
+        );
+
+        const newFavorites = removeAtIndex(favorites, sourceIndex);
+
+        if (existsInSearch) {
+          setFavorites(newFavorites);
+        } else {
+          const newSearchResults = [
+            ...searchResults.slice(0, destIndex),
+            moved,
+            ...searchResults.slice(destIndex),
+          ];
+          setFavorites(newFavorites);
+          setSearchResults(newSearchResults);
+        }
+        return;
+      }
+    },
+    [
+      favorites,
+      filteredSearchResults,
+      searchResults,
+      setFavorites,
+      setSearchResults,
+    ]
+  );
 
   return { onDragEnd };
 };
